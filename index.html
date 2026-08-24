@@ -2,14 +2,14 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <!-- Web App 全屏配置 -->
+    <!-- 强制全屏，禁止用户缩放 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#f5f5f5">
     
-    <!-- 添加到主屏幕的自定义图标 -->
+    <!-- 桌面图标 -->
     <link rel="apple-touch-icon" href="https://img2.tofaka.com/autoupload/fr/46dIX_KX_ZeooqP6vYUelshcUxUpTKAOrZDhOSVlJuGyl5f0KlZfm6UsKj-HyTuv/20260824/TIlW/1242X1215/IMG_1432.jpeg">
     <link rel="icon" type="image/jpeg" href="https://img2.tofaka.com/autoupload/fr/46dIX_KX_ZeooqP6vYUelshcUxUpTKAOrZDhOSVlJuGyl5f0KlZfm6UsKj-HyTuv/20260824/TIlW/1242X1215/IMG_1432.jpeg">
     
@@ -19,35 +19,42 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            /* 严格使用原生 iOS 字体以贴合原图 */
+            font-family: -apple-system, "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
-        body {
+        /* 核心：彻底锁死页面，禁止任何形式的上下滑动 */
+        html, body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
             background-color: #f5f5f5;
-            color: #333; 
+            touch-action: none; /* 彻底禁止手势滑动 */
             -webkit-font-smoothing: antialiased;
             -webkit-user-select: none;
             user-select: none;
         }
 
         .container {
+            width: 100%;
+            height: 100%;
             max-width: 480px;
             margin: 0 auto;
             background-color: #f5f5f5;
-            min-height: 100vh;
-            padding-bottom: 40px;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* 顶部导航栏 */
+        /* 顶部导航栏 - 极限压缩高度以适配全屏 */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
+            padding: max(10px, env(safe-area-inset-top)) 16px 10px 16px;
             background-color: #f5f5f5;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 500;
-            padding-top: max(12px, env(safe-area-inset-top)); 
+            color: #000;
         }
 
         .header .back-placeholder {
@@ -64,26 +71,31 @@
             text-align: right;
             color: #1677ff; 
             font-size: 15px;
+            font-weight: 400;
         }
 
+        /* 卡片区域 - 缩小边距和间距 */
         .card {
             background-color: #fff;
-            border-radius: 12px;
-            margin: 0 12px 12px 12px;
+            border-radius: 10px;
+            margin: 0 12px 8px 12px; /* 缩小底部间距 */
             overflow: hidden;
         }
 
+        /* 提示文字 */
         .section-note {
-            padding: 4px 16px 8px 16px;
+            padding: 2px 16px 6px 16px;
             font-size: 12px;
             color: #999;
         }
 
+        /* 列表行 - 统一高度，确保所有内容刚好塞满一屏 */
         .row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px;
+            height: 44px; /* 固定行高，防止撑开 */
+            padding: 0 16px;
             position: relative;
         }
 
@@ -98,15 +110,17 @@
             right: 0;
             bottom: 0;
             height: 1px;
-            background-color: #eee;
+            background-color: #e5e5ea;
             transform: scaleY(0.5);
         }
 
+        /* 左侧文字字体颜色 */
         .row-left {
             font-size: 16px;
-            color: #333; 
+            color: #111;
         }
 
+        /* 右侧文字字体颜色 */
         .row-right {
             display: flex;
             align-items: center;
@@ -114,46 +128,49 @@
             color: #999;
         }
 
+        /* 头像 */
         .avatar {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             border-radius: 4px;
             background-color: #ddd;
             object-fit: cover;
         }
 
+        /* 箭头指示器 - 仿 iOS 原生更细的线条 */
         .has-arrow::after {
             content: '';
             display: inline-block;
-            width: 7px;
-            height: 7px;
-            border-top: 2px solid #ccc;
-            border-right: 2px solid #ccc;
+            width: 6px;
+            height: 6px;
+            border-top: 1.5px solid #c7c7cc;
+            border-right: 1.5px solid #c7c7cc;
             transform: rotate(45deg);
             margin-left: 8px;
-            margin-bottom: 2px;
         }
 
+        /* 二维码小图标 */
         .qr-icon {
             display: flex;
             flex-wrap: wrap;
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             justify-content: space-between;
             align-content: space-between;
         }
         .qr-icon span {
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             border: 1.5px solid #999;
-            border-radius: 2px;
+            border-radius: 1.5px;
         }
 
+        /* iOS 风格 Switch 开关 - 按比例缩小以贴合紧凑布局 */
         .switch {
             position: relative;
             display: inline-block;
-            width: 51px;
-            height: 31px;
+            width: 46px;
+            height: 28px;
         }
 
         .switch input {
@@ -169,14 +186,14 @@
             background-color: #fff;
             border: 1.5px solid #e5e5ea;
             transition: .3s;
-            border-radius: 31px;
+            border-radius: 28px;
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 27px;
-            width: 27px;
+            height: 24px;
+            width: 24px;
             left: 1px;
             bottom: 0.5px;
             background-color: #fff;
@@ -191,9 +208,10 @@
         }
 
         input:checked + .slider:before {
-            transform: translateX(20px);
+            transform: translateX(18px);
         }
 
+        /* 原生输入框样式 - 隐形化 */
         .inline-input {
             border: none;
             background: transparent;
@@ -201,8 +219,10 @@
             font-size: 15px;
             color: #999;
             outline: none;
-            width: 60px;
+            width: 40px;
             font-family: inherit;
+            padding: 0;
+            margin: 0;
         }
     </style>
 </head>
@@ -211,7 +231,7 @@
 <div class="container">
     <div class="header">
         <div class="back-placeholder"></div>
-        <div class="title">支付宝</div>
+        <div class="title">个人资料</div>
         <div class="action">隐私</div>
     </div>
 
@@ -220,6 +240,7 @@
         <div class="row clickable" id="avatarRow">
             <div class="row-left">头像</div>
             <div class="row-right has-arrow">
+                <!-- 默认预留原图头像位置，点击可换 -->
                 <img src="https://via.placeholder.com/40" alt="avatar" class="avatar" id="avatarImg">
             </div>
         </div>
@@ -322,6 +343,22 @@
 </div>
 
 <script>
+    // --- 禁止双指缩放和双击缩放 (增强防误触) ---
+    document.addEventListener('touchstart', function(event) {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+    
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+        let now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+
     // --- 更换头像逻辑 ---
     const avatarRow = document.getElementById('avatarRow');
     const avatarInput = document.getElementById('avatarInput');
