@@ -35,7 +35,13 @@ body {
     background: var(--bg-color);
 }
 .screen.active { display: block; }
-.page { display: none; padding: 20px 16px; animation: fadeIn 0.3s ease; }
+
+.page { 
+    display: none; 
+    /* 核心修复：适配 iPhone 刘海屏和灵动岛的顶部安全距离 */
+    padding: calc(env(safe-area-inset-top) + 20px) 16px 20px 16px; 
+    animation: fadeIn 0.3s ease; 
+}
 .page.active { display: block; }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -86,7 +92,7 @@ button:active { transform: scale(0.97); }
 .btn-text { background: transparent; color: var(--text-secondary); padding: 8px; font-size: 14px; }
 .btn-icon { background: transparent; color: var(--text-main); padding: 4px; display: flex; align-items: center; justify-content: center; }
 
-/* 欢迎页 (这里修复了霸道的 display 属性，只有 active 时才居中显示) */
+/* 欢迎页 */
 #onboarding.active { display: flex; align-items: center; justify-content: center; padding: 20px; }
 .onboarding-card { width: 100%; max-width: 400px; }
 .onboarding-card h2 { font-size: 22px; margin-bottom: 8px; }
