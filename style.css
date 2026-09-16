@@ -6,7 +6,7 @@
     --glass-bg: rgba(255, 255, 255, 0.65);
     --glass-border: rgba(255, 255, 255, 0.4);
     --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-    --accent: #5e5e60; /* 高级深灰 */
+    --accent: #5e5e60; 
     --accent-light: #e5e5e5;
     --success: #1d1d1f;
     --danger: #1d1d1f;
@@ -86,8 +86,8 @@ button:active { transform: scale(0.97); }
 .btn-text { background: transparent; color: var(--text-secondary); padding: 8px; font-size: 14px; }
 .btn-icon { background: transparent; color: var(--text-main); padding: 4px; display: flex; align-items: center; justify-content: center; }
 
-/* 欢迎页 */
-#onboarding { display: flex; align-items: center; justify-content: center; padding: 20px; }
+/* 欢迎页 (这里修复了霸道的 display 属性，只有 active 时才居中显示) */
+#onboarding.active { display: flex; align-items: center; justify-content: center; padding: 20px; }
 .onboarding-card { width: 100%; max-width: 400px; }
 .onboarding-card h2 { font-size: 22px; margin-bottom: 8px; }
 .onboarding-card .subtitle { color: var(--text-secondary); margin-bottom: 24px; font-size: 14px; }
