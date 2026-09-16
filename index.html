@@ -6,10 +6,10 @@
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Wellness">
+    <meta name="apple-mobile-web-app-title" content="不许吃">
     <link rel="apple-touch-icon" href="https://img2.tofaka.com/autoupload/fr/oCgyW8ywFro7MstljRL1ugfT5cyouZ4CUIqYOmlbuBmyl5f0KlZfm6UsKj-HyTuv/20260916/XkSL/1242X1225/IMG_3188.jpeg">
     
-    <title>Wellness Journal</title>
+    <title>个人减脂记录</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,31 +25,31 @@
     <!-- 首次引导 -->
     <div id="onboarding" class="view active">
         <div class="onboarding-content">
-            <h1 class="editorial-title">PERSONAL<br>WELLNESS<br>JOURNAL</h1>
-            <p class="editorial-subtitle mt-4">A quiet record of your consistency.</p>
+            <h1 class="editorial-title">个人<br>健康日志</h1>
+            <p class="editorial-subtitle mt-4">静静记录你的每一次坚持。</p>
             
             <div class="form-section mt-8">
                 <div class="input-line">
-                    <label>START DATE</label>
+                    <label>开始日期</label>
                     <input type="date" id="setup-start-date">
                 </div>
                 <div class="input-line">
-                    <label>INITIAL WEIGHT (KG)</label>
+                    <label>初始体重 (KG) [可跳过]</label>
                     <input type="number" step="0.1" id="setup-initial-weight" placeholder="--">
                 </div>
                 <div class="input-line">
-                    <label>TARGET WEIGHT (KG)</label>
+                    <label>目标体重 (KG) [可跳过]</label>
                     <input type="number" step="0.1" id="setup-target-weight" placeholder="--">
                 </div>
             </div>
-            <button id="btn-begin" class="btn-primary mt-8">[ BEGIN ]</button>
+            <button id="btn-begin" class="btn-primary mt-8">[ 开始记录 ]</button>
         </div>
     </div>
 
     <!-- 主应用 -->
     <div id="app" class="view">
         
-        <!-- === 1. HOME === -->
+        <!-- === 1. 首页 === -->
         <div id="view-home" class="page active">
             <div class="top-bar">
                 <span class="editorial-date" id="home-date">--</span>
@@ -58,9 +58,9 @@
 
             <div class="hero-section">
                 <div class="hero-item text-center">
-                    <div class="editorial-label">DAY</div>
+                    <div class="editorial-label">减脂第</div>
                     <div class="hero-number" id="home-day">--</div>
-                    <div class="editorial-label">DAYS OF CONSISTENCY</div>
+                    <div class="editorial-label">天</div>
                 </div>
                 
                 <div class="hero-sub mt-6">
@@ -68,62 +68,62 @@
                         <span id="home-weight" class="number-md">--</span>
                         <span class="unit">KG</span>
                     </div>
-                    <div class="hero-diff editorial-label" id="home-diff">NO RECORDS YET</div>
+                    <div class="hero-diff editorial-label" id="home-diff">暂无体重记录</div>
                 </div>
             </div>
 
             <div class="fine-progress-container mt-6">
-                <div class="editorial-label mb-2">CONSISTENCY</div>
+                <div class="editorial-label mb-2">坚持进度</div>
                 <div class="fine-line-track">
                     <div class="fine-line-fill" id="home-progress-line"></div>
                     <div class="fine-line-dot" id="home-progress-dot"></div>
                 </div>
-                <div class="editorial-label mt-2 text-right" id="home-next-milestone">-- DAYS TO MILESTONE</div>
+                <div class="editorial-label mt-2 text-right" id="home-next-milestone">距离里程碑还有 -- 天</div>
             </div>
 
             <div class="log-section mt-8">
-                <div class="editorial-label mb-4">TODAY'S LOG</div>
+                <div class="editorial-label mb-4">今日记录</div>
                 
                 <div class="log-row" onclick="openLogSheet('weight')">
-                    <span class="log-name">WEIGHT</span>
+                    <span class="log-name">体重</span>
                     <span class="log-val" id="val-weight">-- KG</span>
                 </div>
                 <div class="log-row" onclick="openLogSheet('water')">
-                    <span class="log-name">WATER</span>
+                    <span class="log-name">饮水</span>
                     <span class="log-val"><span id="val-water">--</span> / <span id="goal-water-display">2000</span> ML</span>
                 </div>
                 <div class="log-row" onclick="openLogSheet('movement')">
-                    <span class="log-name">MOVEMENT</span>
-                    <span class="log-val" id="val-movement">-- MIN</span>
+                    <span class="log-name">运动</span>
+                    <span class="log-val" id="val-movement">-- 分钟</span>
                 </div>
                 <div class="log-row" onclick="openLogSheet('sleep')">
-                    <span class="log-name">SLEEP</span>
-                    <span class="log-val" id="val-sleep">-- H</span>
+                    <span class="log-name">睡眠</span>
+                    <span class="log-val" id="val-sleep">-- 小时</span>
                 </div>
                 <div class="log-row" onclick="openLogSheet('mood')">
-                    <span class="log-name">MOOD / MEALS</span>
+                    <span class="log-name">状态 / 饮食</span>
                     <span class="log-val" id="val-mood">--</span>
                 </div>
             </div>
 
             <div class="action-section mt-8">
-                <button id="btn-checkin" class="btn-editorial">MARK TODAY COMPLETE</button>
+                <button id="btn-checkin" class="btn-editorial">完成今日打卡</button>
             </div>
             <div class="spacer"></div>
         </div>
 
-        <!-- === 2. JOURNAL === -->
+        <!-- === 2. 日历 === -->
         <div id="view-journal" class="page">
-            <h2 class="page-title editorial-title">JOURNAL</h2>
+            <h2 class="page-title editorial-title">打卡日历</h2>
             
             <div class="streak-header mt-6">
                 <div class="streak-box">
-                    <span class="editorial-label">CURRENT STREAK</span>
-                    <span class="number-sm" id="journal-current-streak">-- DAYS</span>
+                    <span class="editorial-label">当前连续</span>
+                    <span class="number-sm" id="journal-current-streak">-- 天</span>
                 </div>
                 <div class="streak-box text-right">
-                    <span class="editorial-label">LONGEST STREAK</span>
-                    <span class="number-sm" id="journal-longest-streak">-- DAYS</span>
+                    <span class="editorial-label">最长连续</span>
+                    <span class="number-sm" id="journal-longest-streak">-- 天</span>
                 </div>
             </div>
 
@@ -134,75 +134,75 @@
                     <i data-lucide="chevron-right" id="cal-next"></i>
                 </div>
                 <div class="cal-grid mt-4">
-                    <div class="cal-day-name">M</div><div class="cal-day-name">T</div><div class="cal-day-name">W</div>
-                    <div class="cal-day-name">T</div><div class="cal-day-name">F</div><div class="cal-day-name">S</div><div class="cal-day-name">S</div>
+                    <div class="cal-day-name">一</div><div class="cal-day-name">二</div><div class="cal-day-name">三</div>
+                    <div class="cal-day-name">四</div><div class="cal-day-name">五</div><div class="cal-day-name">六</div><div class="cal-day-name">日</div>
                     <div id="cal-days" class="cal-days-wrap"></div>
                 </div>
             </div>
             
             <div id="journal-detail" class="journal-detail glass-panel hidden mt-6">
                 <div class="editorial-label mb-2" id="jd-date">--</div>
-                <div class="number-md mb-4" id="jd-day">DAY --</div>
+                <div class="number-md mb-4" id="jd-day">第 -- 天</div>
                 <div class="jd-grid">
-                    <div><span class="editorial-label">WEIGHT</span><br><span id="jd-weight">--</span></div>
-                    <div><span class="editorial-label">WATER</span><br><span id="jd-water">--</span></div>
-                    <div><span class="editorial-label">MOVE</span><br><span id="jd-move">--</span></div>
-                    <div><span class="editorial-label">SLEEP</span><br><span id="jd-sleep">--</span></div>
+                    <div><span class="editorial-label">体重</span><br><span id="jd-weight">--</span></div>
+                    <div><span class="editorial-label">饮水</span><br><span id="jd-water">--</span></div>
+                    <div><span class="editorial-label">运动</span><br><span id="jd-move">--</span></div>
+                    <div><span class="editorial-label">睡眠</span><br><span id="jd-sleep">--</span></div>
                 </div>
-                <div class="mt-4"><span class="editorial-label">NOTE</span><br><span id="jd-note" class="text-secondary" style="font-size:12px;">--</span></div>
+                <div class="mt-4"><span class="editorial-label">备注</span><br><span id="jd-note" class="text-secondary" style="font-size:12px;">--</span></div>
             </div>
             <div class="spacer"></div>
         </div>
 
-        <!-- === 3. PROGRESS (Trends, Measurements, Photos) === -->
+        <!-- === 3. 趋势 === -->
         <div id="view-progress" class="page">
-            <h2 class="page-title editorial-title">PROGRESS</h2>
+            <h2 class="page-title editorial-title">数据趋势</h2>
             
             <div class="progress-stats mt-6">
                 <div>
                     <span class="number-md" id="prog-current-weight">-- KG</span><br>
-                    <span class="editorial-label">CURRENT</span>
+                    <span class="editorial-label">当前体重</span>
                 </div>
                 <div class="text-right">
                     <span class="number-md" id="prog-total-change">-- KG</span><br>
-                    <span class="editorial-label">TOTAL CHANGE</span>
+                    <span class="editorial-label">累计变化</span>
                 </div>
             </div>
 
             <div class="chart-wrapper mt-8">
                 <div class="chart-filters editorial-label">
-                    <span class="c-filter active" data-range="7">7D</span>
-                    <span class="c-filter" data-range="30">30D</span>
-                    <span class="c-filter" data-range="90">90D</span>
-                    <span class="c-filter" data-range="all">ALL</span>
+                    <span class="c-filter active" data-range="7">7天</span>
+                    <span class="c-filter" data-range="30">30天</span>
+                    <span class="c-filter" data-range="90">90天</span>
+                    <span class="c-filter" data-range="all">全部</span>
                 </div>
                 <div class="chart-container mt-4">
                     <canvas id="weightChart"></canvas>
-                    <div id="chart-empty" class="empty-state hidden">Records will appear here.</div>
+                    <div id="chart-empty" class="empty-state hidden">记录几天后，数据将在这里呈现。</div>
                 </div>
             </div>
             
             <div class="weekly-review mt-8 glass-panel">
-                <div class="editorial-label mb-4">WEEKLY REVIEW</div>
+                <div class="editorial-label mb-4">本周总结</div>
                 <div class="wr-content">
-                    <div class="wr-row"><span id="wr-days">--</span> DAYS RECORDED</div>
-                    <div class="wr-row"><span id="wr-diff">--</span> KG</div>
-                    <div class="wr-row"><span id="wr-move">--</span> MOVEMENT SESSIONS</div>
+                    <div class="wr-row"><span>已记录天数</span> <span id="wr-days">--</span></div>
+                    <div class="wr-row"><span>体重变化</span> <span id="wr-diff">-- KG</span></div>
+                    <div class="wr-row"><span>运动次数</span> <span id="wr-move">--</span></div>
                 </div>
-                <div class="editorial-label mt-4 text-center">A WEEK OF CONSISTENCY.</div>
+                <div class="editorial-label mt-4 text-center" style="color:var(--text-primary);">规律的一周。</div>
             </div>
 
-            <!-- Body Measurements -->
+            <!-- 身体围度 -->
             <div class="measurements-section mt-12">
-                <h3 class="editorial-label mb-4">BODY MEASUREMENTS (CM)</h3>
+                <h3 class="editorial-label mb-4">身体围度 (CM)</h3>
                 <div class="glass-panel">
                     <div class="meas-inputs">
-                        <div class="m-input-box"><label>WAIST</label><input type="number" id="input-waist" placeholder="--"></div>
-                        <div class="m-input-box"><label>HIPS</label><input type="number" id="input-hips" placeholder="--"></div>
-                        <div class="m-input-box"><label>THIGH</label><input type="number" id="input-thigh" placeholder="--"></div>
-                        <div class="m-input-box"><label>ARM</label><input type="number" id="input-arm" placeholder="--"></div>
+                        <div class="m-input-box"><label>腰围</label><input type="number" id="input-waist" placeholder="--"></div>
+                        <div class="m-input-box"><label>臀围</label><input type="number" id="input-hips" placeholder="--"></div>
+                        <div class="m-input-box"><label>大腿</label><input type="number" id="input-thigh" placeholder="--"></div>
+                        <div class="m-input-box"><label>手臂</label><input type="number" id="input-arm" placeholder="--"></div>
                     </div>
-                    <button class="btn-editorial mt-4" id="btn-save-meas">SAVE MEASUREMENTS</button>
+                    <button class="btn-editorial mt-4" id="btn-save-meas">保存围度</button>
                     
                     <div class="chart-container mt-6" style="height: 180px;">
                         <canvas id="measChart"></canvas>
@@ -210,31 +210,30 @@
                 </div>
             </div>
 
-            <!-- Body Journal (Photos) -->
+            <!-- 照片记录 -->
             <div class="photo-journal-section mt-12">
-                <h3 class="editorial-label mb-4">BODY JOURNAL</h3>
+                <h3 class="editorial-label mb-4">照片记录</h3>
                 <div class="glass-panel">
                     <div class="photo-upload-row mb-4">
-                        <label class="photo-btn"><i data-lucide="camera"></i> FRONT <input type="file" id="file-front" accept="image/*" hidden></label>
-                        <label class="photo-btn"><i data-lucide="camera"></i> SIDE <input type="file" id="file-side" accept="image/*" hidden></label>
-                        <label class="photo-btn"><i data-lucide="camera"></i> BACK <input type="file" id="file-back" accept="image/*" hidden></label>
+                        <label class="photo-btn"><i data-lucide="camera"></i> 正面 <input type="file" id="file-front" accept="image/*" hidden></label>
+                        <label class="photo-btn"><i data-lucide="camera"></i> 侧面 <input type="file" id="file-side" accept="image/*" hidden></label>
+                        <label class="photo-btn"><i data-lucide="camera"></i> 背面 <input type="file" id="file-back" accept="image/*" hidden></label>
                     </div>
                     
-                    <!-- 比较视图 -->
                     <div class="photo-compare">
                         <div class="compare-col">
                             <select id="compare-date-1" class="compare-select"><option>--</option></select>
-                            <div class="photo-frame" id="frame-1"><span class="empty-text">NO PHOTO</span></div>
+                            <div class="photo-frame" id="frame-1"><span class="empty-text">暂无照片</span></div>
                         </div>
                         <div class="compare-col">
                             <select id="compare-date-2" class="compare-select"><option>--</option></select>
-                            <div class="photo-frame" id="frame-2"><span class="empty-text">NO PHOTO</span></div>
+                            <div class="photo-frame" id="frame-2"><span class="empty-text">暂无照片</span></div>
                         </div>
                     </div>
                     <div class="photo-type-tabs mt-4 text-center">
-                        <span class="pt-tab active" data-ptype="front">FRONT</span>
-                        <span class="pt-tab" data-ptype="side">SIDE</span>
-                        <span class="pt-tab" data-ptype="back">BACK</span>
+                        <span class="pt-tab active" data-ptype="front">正面</span>
+                        <span class="pt-tab" data-ptype="side">侧面</span>
+                        <span class="pt-tab" data-ptype="back">背面</span>
                     </div>
                 </div>
             </div>
@@ -242,74 +241,74 @@
             <div class="spacer"></div>
         </div>
 
-        <!-- === 4. CHALLENGES === -->
+        <!-- === 4. 挑战 === -->
         <div id="view-challenges" class="page">
-            <h2 class="page-title editorial-title">CHALLENGES</h2>
+            <h2 class="page-title editorial-title">挑战</h2>
             <div id="challenges-list" class="mt-6"></div>
-            <h3 class="editorial-label mt-8 mb-4">MILESTONES</h3>
+            <h3 class="editorial-label mt-8 mb-4">里程碑成就</h3>
             <div id="milestones-list" class="milestones-grid"></div>
             <div class="spacer"></div>
         </div>
 
-        <!-- === 5. PROFILE & SETTINGS === -->
+        <!-- === 5. 我的 === -->
         <div id="view-profile" class="page">
-            <h2 class="page-title editorial-title">PROFILE</h2>
+            <h2 class="page-title editorial-title">我的</h2>
             
-            <div class="editorial-label mt-6 mb-2">YOUR JOURNEY</div>
+            <div class="editorial-label mt-6 mb-2">坚持历程</div>
             <div class="glass-panel profile-stats">
-                <div class="p-row"><span>STARTED</span><span id="prof-start">--</span></div>
-                <div class="p-row"><span>CURRENT DAY</span><span id="prof-day">--</span></div>
-                <div class="p-row"><span>TOTAL LOGGED</span><span id="prof-total">-- DAYS</span></div>
-                <div class="p-row"><span>LONGEST STREAK</span><span id="prof-streak">-- DAYS</span></div>
+                <div class="p-row"><span>开始日期</span><span id="prof-start">--</span></div>
+                <div class="p-row"><span>当前天数</span><span id="prof-day">--</span></div>
+                <div class="p-row"><span>累计打卡</span><span id="prof-total">-- 天</span></div>
+                <div class="p-row"><span>最长连续</span><span id="prof-streak">-- 天</span></div>
             </div>
 
-            <!-- GOALS & INFO -->
-            <div class="editorial-label mt-8 mb-2">GOALS & INFO</div>
+            <!-- 目标与信息 -->
+            <div class="editorial-label mt-8 mb-2">目标与信息</div>
             <div class="glass-panel">
-                <div class="set-line"><label>START DATE</label><input type="date" id="set-start-date"></div>
-                <div class="set-line"><label>HEIGHT (CM)</label><input type="number" id="set-height" placeholder="--"></div>
-                <div class="set-line"><label>INITIAL WEIGHT (KG)</label><input type="number" step="0.1" id="set-init-weight" placeholder="--"></div>
-                <div class="set-line"><label>CURRENT WEIGHT (KG)</label><input type="number" step="0.1" id="set-curr-weight" placeholder="--"></div>
-                <div class="set-line"><label>TARGET WEIGHT (KG)</label><input type="number" step="0.1" id="set-target-weight" placeholder="--"></div>
-                <div class="set-line"><label>DAILY WATER GOAL (ML)</label><input type="number" id="set-water-goal" placeholder="2000"></div>
-                <div class="set-line"><label>WEEKLY MOVE GOAL (SESSIONS)</label><input type="number" id="set-move-goal" placeholder="3"></div>
-                <button class="btn-editorial mt-4" id="btn-save-goals">SAVE GOALS</button>
+                <div class="set-line"><label>开始日期</label><input type="date" id="set-start-date"></div>
+                <div class="set-line"><label>身高 (CM)</label><input type="number" id="set-height" placeholder="--"></div>
+                <div class="set-line"><label>初始体重 (KG)</label><input type="number" step="0.1" id="set-init-weight" placeholder="--"></div>
+                <div class="set-line"><label>当前体重 (KG)</label><input type="number" step="0.1" id="set-curr-weight" placeholder="--"></div>
+                <div class="set-line"><label>目标体重 (KG)</label><input type="number" step="0.1" id="set-target-weight" placeholder="--"></div>
+                <div class="set-line"><label>每日饮水目标 (ML)</label><input type="number" id="set-water-goal" placeholder="2000"></div>
+                <div class="set-line"><label>每周运动目标 (次)</label><input type="number" id="set-move-goal" placeholder="3"></div>
+                <button class="btn-editorial mt-4" id="btn-save-goals">保存目标</button>
             </div>
 
-            <!-- APPEARANCE -->
-            <div class="editorial-label mt-8 mb-2">APPEARANCE</div>
+            <!-- 外观设置 -->
+            <div class="editorial-label mt-8 mb-2">外观设置</div>
             <div class="glass-panel">
                 <div class="slider-line">
-                    <label>BACKGROUND LIGHTNESS</label>
+                    <label>背景亮度</label>
                     <input type="range" id="app-bg-lum" min="100" max="255" value="233">
                 </div>
                 <div class="slider-line">
-                    <label>GLASS OPACITY</label>
+                    <label>毛玻璃透明度</label>
                     <input type="range" id="app-glass-alpha" min="10" max="90" value="45">
                 </div>
                 <div class="slider-line">
-                    <label>BORDER RADIUS</label>
+                    <label>卡片圆角</label>
                     <input type="range" id="app-radius" min="0" max="32" value="12">
                 </div>
                 <div class="toggle-line mt-4">
-                    <label>ENABLE ANIMATIONS</label>
+                    <label>开启优雅动效</label>
                     <input type="checkbox" id="app-anim" checked>
                 </div>
             </div>
 
-            <!-- DATA -->
-            <div class="editorial-label mt-8 mb-2">DATA</div>
+            <!-- 数据管理 -->
+            <div class="editorial-label mt-8 mb-2">数据管理</div>
             <div class="log-row" id="btn-export">
-                <span class="log-name">EXPORT JOURNAL (JSON)</span><i data-lucide="download" class="icon-sm"></i>
+                <span class="log-name">导出记录 (JSON)</span><i data-lucide="download" class="icon-sm"></i>
             </div>
             <div class="log-row">
                 <label for="file-import" class="log-name" style="width:100%; display:flex; justify-content:space-between; cursor:pointer;">
-                    IMPORT DATA <i data-lucide="upload" class="icon-sm"></i>
+                    导入记录 <i data-lucide="upload" class="icon-sm"></i>
                 </label>
                 <input type="file" id="file-import" accept=".json" style="display:none;">
             </div>
             <div class="log-row" id="btn-reset">
-                <span class="log-name" style="color: #777;">RESET ALL DATA</span>
+                <span class="log-name" style="color: #777;">清除所有数据</span>
             </div>
             <div class="spacer"></div>
         </div>
@@ -327,13 +326,13 @@
     <div class="sheet-overlay" id="sheet-overlay"></div>
     <div class="bottom-sheet" id="log-sheet">
         <div class="sheet-handle"></div>
-        <div class="editorial-label text-center mb-6" id="sheet-title">LOG</div>
+        <div class="editorial-label text-center mb-6" id="sheet-title">记录</div>
         <div class="sheet-content">
             <input type="number" step="0.1" id="sheet-input-num" class="sheet-input hidden" placeholder="--">
-            <input type="text" id="sheet-input-text" class="sheet-input hidden" placeholder="Notes / Meals...">
+            <input type="text" id="sheet-input-text" class="sheet-input hidden" placeholder="今天感觉如何？吃了什么？">
             <span class="sheet-unit editorial-label mt-2 block text-center" id="sheet-unit"></span>
         </div>
-        <button class="btn-editorial mt-6" id="btn-save-sheet">SAVE</button>
+        <button class="btn-editorial mt-6" id="btn-save-sheet">保存记录</button>
     </div>
 
     <script src="app.js"></script>
