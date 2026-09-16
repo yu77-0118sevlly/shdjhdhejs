@@ -46,7 +46,7 @@ function loadDB() {
     if (data) {
         try {
             const parsed = JSON.parse(data);
-            db = { ...db, ...parsed }; // 合并默认值
+            db = { ...db, ...parsed }; 
             if (!db.records) db.records = {};
             if (!db.measurements) db.measurements = {};
             if (!db.photos) db.photos = {};
@@ -104,12 +104,10 @@ function applyAppearance() {
 /* ==================================
    VIEW RENDERING
 ================================== */
-const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-
 // 1. HOME
 function renderHome() {
     const today = new Date();
-    document.getElementById('home-date').textContent = `${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
+    document.getElementById('home-date').textContent = `${today.getFullYear()}年${today.getMonth() + 1}月${today.getDate()}日`;
     const dayX = getDayX(getTodayStr());
     document.getElementById('home-day').textContent = dayX || '--';
     
@@ -119,9 +117,9 @@ function renderHome() {
     let baseWeight = db.initialWeight;
     if (rec.weight && baseWeight) {
         let diff = (rec.weight - baseWeight).toFixed(1);
-        document.getElementById('home-diff').textContent = `${diff > 0 ? '+'+diff : diff} KG SINCE START`;
+        document.getElementById('home-diff').textContent = `较初始 ${diff > 0 ? '+'+diff : diff} KG`;
     } else {
-        document.getElementById('home-diff').textContent = 'NO WEIGHT RECORDED';
+        document.getElementById('home-diff').textContent = '暂无体重记录';
     }
 
     const stats = calcStats();
@@ -130,30 +128,30 @@ function renderHome() {
     
     document.getElementById('home-progress-line').style.width = pct + '%';
     document.getElementById('home-progress-dot').style.left = pct + '%';
-    document.getElementById('home-next-milestone').textContent = `${target - stats.total} DAYS TO MILESTONE`;
+    document.getElementById('home-next-milestone').textContent = `距离下一个里程碑还有 ${target - stats.total} 天`;
 
     document.getElementById('val-weight').textContent = rec.weight ? rec.weight + ' KG' : '-- KG';
     document.getElementById('val-water').textContent = rec.water ? rec.water : '--';
     document.getElementById('goal-water-display').textContent = db.waterGoal || 2000;
-    document.getElementById('val-movement').textContent = rec.movement ? rec.movement + ' MIN' : '-- MIN';
-    document.getElementById('val-sleep').textContent = rec.sleep ? rec.sleep + ' H' : '-- H';
-    document.getElementById('val-mood').textContent = rec.mood ? rec.mood.toUpperCase() : '--';
+    document.getElementById('val-movement').textContent = rec.movement ? rec.movement + ' 分钟' : '-- 分钟';
+    document.getElementById('val-sleep').textContent = rec.sleep ? rec.sleep + ' 小时' : '-- 小时';
+    document.getElementById('val-mood').textContent = rec.mood ? rec.mood : '--';
 
     const btn = document.getElementById('btn-checkin');
     if (rec.completed) {
-        btn.textContent = '✓ TODAY COMPLETED'; btn.classList.add('completed');
+        btn.textContent = '✓ 今日已完成'; btn.classList.add('completed');
     } else {
-        btn.textContent = 'MARK TODAY COMPLETE'; btn.classList.remove('completed');
+        btn.textContent = '完成今日打卡'; btn.classList.remove('completed');
     }
 }
 
 // 2. JOURNAL
 function renderJournal() {
     const stats = calcStats();
-    document.getElementById('journal-current-streak').textContent = stats.currS + ' DAYS';
-    document.getElementById('journal-longest-streak').textContent = stats.maxS + ' DAYS';
+    document.getElementById('journal-current-streak').textContent = stats.currS + ' 天';
+    document.getElementById('journal-longest-streak').textContent = stats.maxS + ' 天';
     const y = calRenderDate.getFullYear(); const m = calRenderDate.getMonth();
-    document.getElementById('cal-month').textContent = `${months[m]} ${y}`;
+    document.getElementById('cal-month').textContent = `${y}年 ${m + 1}月`;
 
     const container = document.getElementById('cal-days');
     container.innerHTML = '';
@@ -188,22 +186,21 @@ function renderJournal() {
 
 function showDayDetail(dStr) {
     const dDate = new Date(dStr);
-    document.getElementById('jd-date').textContent = `${months[dDate.getMonth()].substring(0,3)} ${dDate.getDate()}`;
+    document.getElementById('jd-date').textContent = `${dDate.getMonth() + 1}月${dDate.getDate()}日`;
     const dayX = getDayX(dStr);
-    document.getElementById('jd-day').textContent = dayX ? `DAY ${dayX}` : '--';
+    document.getElementById('jd-day').textContent = dayX ? `第 ${dayX} 天` : '--';
     
     const rec = db.records[dStr] || {};
     document.getElementById('jd-weight').textContent = rec.weight ? rec.weight + ' KG' : '--';
     document.getElementById('jd-water').textContent = rec.water ? rec.water + ' ML' : '--';
     document.getElementById('jd-move').textContent = rec.movement ? rec.movement + ' MIN' : '--';
     document.getElementById('jd-sleep').textContent = rec.sleep ? rec.sleep + ' H' : '--';
-    document.getElementById('jd-note').textContent = rec.mood ? rec.mood.toUpperCase() : '--';
+    document.getElementById('jd-note').textContent = rec.mood ? rec.mood : '--';
     document.getElementById('journal-detail').classList.remove('hidden');
 }
 
-// 3. PROGRESS (Trends + Measurements + Photos)
+// 3. PROGRESS
 function renderProgress(range = '7') {
-    // ---- WEIGHT CHART ----
     let dates = Object.keys(db.records).sort();
     let pts = [];
     dates.forEach(d => { if(db.records[d].weight) pts.push({x:d, y:db.records[d].weight}); });
@@ -239,7 +236,6 @@ function renderProgress(range = '7') {
         });
     }
 
-    // ---- WEEKLY REVIEW ----
     let wDays = 0, wMove = 0;
     let today = new Date(); today.setHours(0,0,0,0);
     let aWeekAgo = new Date(today); aWeekAgo.setDate(today.getDate() - 7);
@@ -254,15 +250,13 @@ function renderProgress(range = '7') {
     document.getElementById('wr-move').textContent = wMove;
     document.getElementById('wr-diff').textContent = (pts.length > 1) ? (pts[pts.length-1].y - pts[pts.length-2].y).toFixed(1) : '--';
 
-    // ---- BODY MEASUREMENTS ----
     const mRec = db.measurements[getTodayStr()] || {};
     document.getElementById('input-waist').value = mRec.waist || '';
     document.getElementById('input-hips').value = mRec.hips || '';
     document.getElementById('input-thigh').value = mRec.thigh || '';
     document.getElementById('input-arm').value = mRec.arm || '';
     renderMeasChart();
-
-    // ---- BODY JOURNAL (Photos) ----
+    
     updatePhotoDropdowns();
     renderComparePhotos();
 }
@@ -284,10 +278,10 @@ function renderMeasChart() {
         data: {
             labels: dLabel,
             datasets: [
-                { label: 'WAIST', data: dw, borderColor: '#242424', borderWidth: 1, tension: 0.3 },
-                { label: 'HIPS', data: dh, borderColor: '#777777', borderWidth: 1, borderDash: [5,5], tension: 0.3 },
-                { label: 'THIGH', data: dt, borderColor: '#A2A2A0', borderWidth: 1, tension: 0.3 },
-                { label: 'ARM', data: da, borderColor: '#d0d0d0', borderWidth: 1, tension: 0.3 }
+                { label: '腰围', data: dw, borderColor: '#242424', borderWidth: 1, tension: 0.3 },
+                { label: '臀围', data: dh, borderColor: '#777777', borderWidth: 1, borderDash: [5,5], tension: 0.3 },
+                { label: '大腿', data: dt, borderColor: '#A2A2A0', borderWidth: 1, tension: 0.3 },
+                { label: '手臂', data: da, borderColor: '#d0d0d0', borderWidth: 1, tension: 0.3 }
             ]
         },
         options: {
@@ -308,7 +302,6 @@ document.getElementById('btn-save-meas').onclick = () => {
     saveDB(); renderMeasChart();
 };
 
-// --- 照片处理与展示 ---
 let currentPhotoType = 'front';
 document.querySelectorAll('.pt-tab').forEach(t => {
     t.onclick = (e) => {
@@ -325,7 +318,6 @@ function handlePhotoUpload(e, type) {
     reader.onload = function(evt) {
         const img = new Image();
         img.onload = function() {
-            // 压缩图片防止 localStorage 爆满
             const canvas = document.createElement('canvas');
             const MAX_WIDTH = 400;
             const scale = Math.min(MAX_WIDTH / img.width, 1);
@@ -355,8 +347,7 @@ function updatePhotoDropdowns() {
     pDates.forEach(d => html += `<option value="${d}">${d}</option>`);
     s1.innerHTML = html; s2.innerHTML = html;
     if(pDates.length > 0) {
-        s1.value = pDates[0];
-        s2.value = pDates[pDates.length-1];
+        s1.value = pDates[0]; s2.value = pDates[pDates.length-1];
     }
 }
 
@@ -371,11 +362,11 @@ function renderComparePhotos() {
     
     if (d1 !== '--' && db.photos[d1] && db.photos[d1][currentPhotoType]) {
         f1.innerHTML = `<img src="${db.photos[d1][currentPhotoType]}">`;
-    } else { f1.innerHTML = `<span class="empty-text">NO PHOTO</span>`; }
+    } else { f1.innerHTML = `<span class="empty-text">暂无照片</span>`; }
     
     if (d2 !== '--' && db.photos[d2] && db.photos[d2][currentPhotoType]) {
         f2.innerHTML = `<img src="${db.photos[d2][currentPhotoType]}">`;
-    } else { f2.innerHTML = `<span class="empty-text">NO PHOTO</span>`; }
+    } else { f2.innerHTML = `<span class="empty-text">暂无照片</span>`; }
 }
 
 
@@ -389,14 +380,14 @@ function renderChallenges() {
         html += `
         <div class="chal-item">
             <div class="chal-head">
-                <span class="editorial-label" style="font-size:12px; color:var(--text-primary);">${t} DAYS</span>
+                <span class="editorial-label" style="font-size:12px; color:var(--text-primary);">${t} 天挑战</span>
                 <span class="editorial-label">${stats.total > t ? t : stats.total} / ${t}</span>
             </div>
             <div class="fine-line-track">
                 <div class="fine-line-fill" style="width:${pct}%"></div>
                 <div class="fine-line-dot" style="left:${pct}%"></div>
             </div>
-            <div class="editorial-label text-right mt-2">${diff > 0 ? diff + ' DAYS REMAINING' : 'COMPLETED'}</div>
+            <div class="editorial-label text-right mt-2">${diff > 0 ? diff + ' 天后完成' : '已完成'}</div>
         </div>`;
     });
     document.getElementById('challenges-list').innerHTML = html;
@@ -404,7 +395,7 @@ function renderChallenges() {
     let msHtml = '';
     [7, 14, 30, 60, 90, 100].forEach(m => {
         let unlocked = stats.total >= m;
-        msHtml += `<div class="ms-item ${unlocked?'unlocked':''}"><i data-lucide="${unlocked?'check-circle':'circle'}"></i> ${m} DAYS</div>`;
+        msHtml += `<div class="ms-item ${unlocked?'unlocked':''}"><i data-lucide="${unlocked?'check-circle':'circle'}"></i> ${m} 天</div>`;
     });
     document.getElementById('milestones-list').innerHTML = msHtml;
     lucide.createIcons();
@@ -414,11 +405,10 @@ function renderChallenges() {
 function renderProfile() {
     const stats = calcStats();
     document.getElementById('prof-start').textContent = db.startDate || '--';
-    document.getElementById('prof-day').textContent = 'DAY ' + (getDayX(getTodayStr()) || '--');
-    document.getElementById('prof-total').textContent = stats.total + ' DAYS';
-    document.getElementById('prof-streak').textContent = stats.maxS + ' DAYS';
+    document.getElementById('prof-day').textContent = '第 ' + (getDayX(getTodayStr()) || '--') + ' 天';
+    document.getElementById('prof-total').textContent = stats.total + ' 天';
+    document.getElementById('prof-streak').textContent = stats.maxS + ' 天';
     
-    // Fill Settings inputs
     document.getElementById('set-start-date').value = db.startDate || '';
     document.getElementById('set-height').value = db.height || '';
     document.getElementById('set-init-weight').value = db.initialWeight || '';
@@ -431,14 +421,12 @@ function renderProfile() {
     document.getElementById('set-water-goal').value = db.waterGoal || 2000;
     document.getElementById('set-move-goal').value = db.moveGoal || 3;
 
-    // Fill Appearance inputs
     document.getElementById('app-bg-lum').value = db.appearance.lum;
     document.getElementById('app-glass-alpha').value = db.appearance.alpha * 100;
     document.getElementById('app-radius').value = db.appearance.radius;
     document.getElementById('app-anim').checked = db.appearance.anim;
 }
 
-// 保存 Goals
 document.getElementById('btn-save-goals').onclick = () => {
     let sd = document.getElementById('set-start-date').value; if(sd) db.startDate = sd;
     db.height = parseFloat(document.getElementById('set-height').value) || null;
@@ -454,7 +442,6 @@ document.getElementById('btn-save-goals').onclick = () => {
     saveDB(); renderProfile();
 };
 
-// 监听 Appearance 滑块
 function updateAppearance() {
     db.appearance.lum = document.getElementById('app-bg-lum').value;
     db.appearance.alpha = document.getElementById('app-glass-alpha').value / 100;
@@ -486,7 +473,6 @@ function switchView(viewId) {
 }
 document.querySelectorAll('.nav-item').forEach(el => { el.onclick = () => switchView(el.dataset.target); });
 
-// Sheet 逻辑
 const sheet = document.getElementById('log-sheet');
 const overlay = document.getElementById('sheet-overlay');
 const inputNum = document.getElementById('sheet-input-num');
@@ -494,7 +480,17 @@ const inputText = document.getElementById('sheet-input-text');
 
 function openLogSheet(type) {
     currentLogType = type; const rec = getRecord(getTodayStr());
-    document.getElementById('sheet-title').textContent = 'LOG ' + type.toUpperCase();
+    
+    // 动态翻译弹窗标题
+    let titleCN = '';
+    if(type==='weight') titleCN = '记录体重';
+    if(type==='water') titleCN = '记录饮水';
+    if(type==='movement') titleCN = '记录运动';
+    if(type==='sleep') titleCN = '记录睡眠';
+    if(type==='mood') titleCN = '状态与饮食';
+    
+    document.getElementById('sheet-title').textContent = titleCN;
+    
     inputNum.classList.add('hidden'); inputText.classList.add('hidden');
     inputNum.value = ''; inputText.value = '';
     
@@ -504,7 +500,7 @@ function openLogSheet(type) {
         setTimeout(() => inputText.focus(), 300);
     } else {
         inputNum.classList.remove('hidden'); inputNum.value = rec[type] || '';
-        let unit = type === 'weight' ? 'KG' : (type === 'water' ? 'ML' : (type === 'movement' ? 'MINUTES' : 'HOURS'));
+        let unit = type === 'weight' ? 'KG' : (type === 'water' ? 'ML' : (type === 'movement' ? '分钟' : '小时'));
         document.getElementById('sheet-unit').textContent = unit;
         setTimeout(() => inputNum.focus(), 300);
     }
@@ -525,6 +521,17 @@ document.getElementById('btn-checkin').onclick = () => {
     getRecord(getTodayStr()).completed = true; saveDB(); renderHome();
 };
 
+document.getElementById('cal-prev').onclick = () => { calRenderDate.setMonth(calRenderDate.getMonth()-1); renderJournal(); };
+document.getElementById('cal-next').onclick = () => { calRenderDate.setMonth(calRenderDate.getMonth()+1); renderJournal(); };
+
+document.querySelectorAll('.c-filter').forEach(f => {
+    f.onclick = (e) => {
+        document.querySelectorAll('.c-filter').forEach(el => el.classList.remove('active'));
+        e.target.classList.add('active');
+        renderProgress(e.target.dataset.range);
+    }
+});
+
 /* ==================================
    DATA MGT & INIT
 ================================== */
@@ -538,12 +545,12 @@ document.getElementById('btn-export').onclick = () => {
 document.getElementById('file-import').onchange = (e) => {
     const file = e.target.files[0]; if(!file) return;
     const reader = new FileReader();
-    reader.onload = (e) => { try { let data = JSON.parse(e.target.result); if(data.records) { db = data; saveDB(); location.reload(); } } catch(err) { alert('Invalid file.'); } };
+    reader.onload = (e) => { try { let data = JSON.parse(e.target.result); if(data.records) { db = data; saveDB(); location.reload(); } } catch(err) { alert('导入失败，请检查文件。'); } };
     reader.readAsText(file);
 };
 
 document.getElementById('btn-reset').onclick = () => {
-    if(confirm('Are you sure you want to erase all data?')) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
+    if(confirm('确定要清除所有数据吗？此操作无法恢复。')) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
 };
 
 function init() {
@@ -557,7 +564,7 @@ function init() {
         
         document.getElementById('btn-begin').onclick = () => {
             const sd = document.getElementById('setup-start-date').value;
-            if(!sd) return alert('Start date is required.');
+            if(!sd) return alert('请选择开始日期。');
             db.startDate = sd;
             db.initialWeight = parseFloat(document.getElementById('setup-initial-weight').value) || null;
             db.targetWeight = parseFloat(document.getElementById('setup-target-weight').value) || null;
