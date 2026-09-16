@@ -2,353 +2,308 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <!-- Web App 全屏配置 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- PWA / Apple iOS Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#f5f5f5">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="不许吃">
+    <link rel="apple-touch-icon" href="assets/icon.svg">
+    <link rel="manifest" href="manifest.json">
     
-    <!-- 添加到主屏幕的自定义图标 -->
-    <link rel="apple-touch-icon" href="https://img2.tofaka.com/autoupload/fr/46dIX_KX_ZeooqP6vYUelshcUxUpTKAOrZDhOSVlJuGyl5f0KlZfm6UsKj-HyTuv/20260824/TIlW/1242X1215/IMG_1432.jpeg">
-    <link rel="icon" type="image/jpeg" href="https://img2.tofaka.com/autoupload/fr/46dIX_KX_ZeooqP6vYUelshcUxUpTKAOrZDhOSVlJuGyl5f0KlZfm6UsKj-HyTuv/20260824/TIlW/1242X1215/IMG_1432.jpeg">
+    <title>不许吃 - 减脂记录</title>
     
-    <title>支付宝</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: #f5f5f5;
-            color: #333; 
-            -webkit-font-smoothing: antialiased;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            background-color: #f5f5f5;
-            min-height: 100vh;
-            padding-bottom: 40px;
-        }
-
-        /* 顶部导航栏 */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background-color: #f5f5f5;
-            font-size: 18px;
-            font-weight: 500;
-            padding-top: max(12px, env(safe-area-inset-top)); 
-        }
-
-        .header .back-placeholder {
-            width: 40px;
-        }
-
-        .header .title {
-            flex: 1;
-            text-align: center;
-        }
-
-        .header .action {
-            width: 40px;
-            text-align: right;
-            color: #1677ff; 
-            font-size: 15px;
-        }
-
-        .card {
-            background-color: #fff;
-            border-radius: 12px;
-            margin: 0 12px 12px 12px;
-            overflow: hidden;
-        }
-
-        .section-note {
-            padding: 4px 16px 8px 16px;
-            font-size: 12px;
-            color: #999;
-        }
-
-        .row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px;
-            position: relative;
-        }
-
-        .row.clickable:active {
-            background-color: #f0f0f0;
-        }
-
-        .row:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            left: 16px;
-            right: 0;
-            bottom: 0;
-            height: 1px;
-            background-color: #eee;
-            transform: scaleY(0.5);
-        }
-
-        .row-left {
-            font-size: 16px;
-            color: #333; 
-        }
-
-        .row-right {
-            display: flex;
-            align-items: center;
-            font-size: 15px;
-            color: #999;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 4px;
-            background-color: #ddd;
-            object-fit: cover;
-        }
-
-        .has-arrow::after {
-            content: '';
-            display: inline-block;
-            width: 7px;
-            height: 7px;
-            border-top: 2px solid #ccc;
-            border-right: 2px solid #ccc;
-            transform: rotate(45deg);
-            margin-left: 8px;
-            margin-bottom: 2px;
-        }
-
-        .qr-icon {
-            display: flex;
-            flex-wrap: wrap;
-            width: 16px;
-            height: 16px;
-            justify-content: space-between;
-            align-content: space-between;
-        }
-        .qr-icon span {
-            width: 7px;
-            height: 7px;
-            border: 1.5px solid #999;
-            border-radius: 2px;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 51px;
-            height: 31px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #fff;
-            border: 1.5px solid #e5e5ea;
-            transition: .3s;
-            border-radius: 31px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 27px;
-            width: 27px;
-            left: 1px;
-            bottom: 0.5px;
-            background-color: #fff;
-            transition: .3s;
-            border-radius: 50%;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.15), 0 1px 1px rgba(0,0,0,0.16), 0 3px 1px rgba(0,0,0,0.1);
-        }
-
-        input:checked + .slider {
-            background-color: #1677ff; 
-            border-color: #1677ff;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(20px);
-        }
-
-        .inline-input {
-            border: none;
-            background: transparent;
-            text-align: right;
-            font-size: 15px;
-            color: #999;
-            outline: none;
-            width: 60px;
-            font-family: inherit;
-        }
-    </style>
+    <!-- Chart.js for Trend Graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-<div class="container">
-    <div class="header">
-        <div class="back-placeholder"></div>
-        <div class="title">支付宝</div>
-        <div class="action">隐私</div>
+    <!-- 欢迎 / 初始设置页 -->
+    <div id="onboarding" class="screen active">
+        <div class="glass-card onboarding-card">
+            <h2>开始记录你的减脂旅程</h2>
+            <p class="subtitle">从今天开始，认真记录每一天。</p>
+            
+            <div class="form-group">
+                <label>减脂开始日期</label>
+                <input type="date" id="setup-start-date">
+            </div>
+            <div class="form-group">
+                <label>初始体重 (kg) <span class="optional">可跳过</span></label>
+                <input type="number" step="0.1" id="setup-initial-weight" placeholder="例如: 68.0">
+            </div>
+            <div class="form-group">
+                <label>目标体重 (kg) <span class="optional">可跳过</span></label>
+                <input type="number" step="0.1" id="setup-target-weight" placeholder="例如: 55.0">
+            </div>
+            
+            <button id="btn-start" class="btn-primary">开始</button>
+        </div>
     </div>
 
-    <!-- 基础信息卡片 -->
-    <div class="card">
-        <div class="row clickable" id="avatarRow">
-            <div class="row-left">头像</div>
-            <div class="row-right has-arrow">
-                <img src="https://via.placeholder.com/40" alt="avatar" class="avatar" id="avatarImg">
-            </div>
-        </div>
-        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
-
-        <div class="row">
-            <div class="row-left">我的二维码</div>
-            <div class="row-right has-arrow">
-                <div class="qr-icon">
-                    <span></span><span></span><span></span><span></span>
+    <!-- 主应用界面 -->
+    <div id="app" class="screen">
+        
+        <!-- 首页 (Home) -->
+        <div id="page-home" class="page active">
+            <div class="header-status">
+                <div class="day-counter">
+                    减脂第 <span id="day-x" class="highlight-num">1</span> 天
+                </div>
+                <div class="streak-info">
+                    连续打卡 <span id="streak-days">0</span> 天 · 累计打卡 <span id="total-days">0</span> 天
                 </div>
             </div>
+            
+            <div class="glass-card today-status-card">
+                <div class="card-header">
+                    <h3>今日 · <span id="today-date-text"></span></h3>
+                    <span class="progress-text"><span id="task-completed">0</span> / 6</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="daily-progress"></div>
+                </div>
+            </div>
+
+            <div class="glass-card checkin-action">
+                <button id="btn-checkin" class="btn-large"><i data-lucide="check-circle"></i> 今日打卡</button>
+                <p id="checkin-msg" class="success-msg hidden">✓ 今日已打卡</p>
+            </div>
+
+            <div class="daily-tasks">
+                <!-- 体重 -->
+                <div class="glass-card task-card">
+                    <h4><i data-lucide="scale"></i> 记录体重</h4>
+                    <div class="input-row">
+                        <input type="number" step="0.1" id="input-weight" placeholder="65.4">
+                        <span>kg</span>
+                    </div>
+                </div>
+                
+                <!-- 饮水 -->
+                <div class="glass-card task-card">
+                    <h4><i data-lucide="droplet"></i> 今日饮水</h4>
+                    <div class="water-status">
+                        <span id="water-current" class="num-large">0</span> / <span id="water-goal">2000</span> ml
+                    </div>
+                    <div class="water-actions">
+                        <button id="btn-water-add" class="btn-secondary">+ 250 ml</button>
+                        <button id="btn-water-reset" class="btn-text">重置</button>
+                    </div>
+                </div>
+                
+                <!-- 运动 -->
+                <div class="glass-card task-card">
+                    <h4><i data-lucide="activity"></i> 今天运动了吗？</h4>
+                    <div class="chip-group" id="exercise-types">
+                        <div class="chip active" data-val="无">没有</div>
+                        <div class="chip" data-val="散步">散步</div>
+                        <div class="chip" data-val="跑步">跑步</div>
+                        <div class="chip" data-val="健身">健身</div>
+                        <div class="chip" data-val="跳操">跳操</div>
+                        <div class="chip" data-val="其他">其他</div>
+                    </div>
+                    <div class="input-row mt-2">
+                        <label>时长：</label>
+                        <input type="number" id="input-exercise-time" placeholder="30" style="width:80px;">
+                        <span>min</span>
+                    </div>
+                </div>
+
+                <!-- 饮食 -->
+                <div class="glass-card task-card">
+                    <h4><i data-lucide="utensils"></i> 饮食记录</h4>
+                    <input type="text" id="input-meal-breakfast" placeholder="早餐: 例如 全麦面包+牛奶" class="full-input">
+                    <input type="text" id="input-meal-lunch" placeholder="午餐: 例如 鸡蛋+米饭+青菜" class="full-input mt-2">
+                    <input type="text" id="input-meal-dinner" placeholder="晚餐: 例如 减脂餐" class="full-input mt-2">
+                    <input type="text" id="input-meal-snack" placeholder="零食 (选填)" class="full-input mt-2">
+                </div>
+
+                <!-- 睡眠 -->
+                <div class="glass-card task-card">
+                    <h4><i data-lucide="moon"></i> 睡眠时间</h4>
+                    <div class="input-row">
+                        <input type="number" step="0.5" id="input-sleep" placeholder="7.5">
+                        <span>小时</span>
+                    </div>
+                </div>
+
+                <!-- 状态 -->
+                <div class="glass-card task-card">
+                    <h4><i data-lucide="smile"></i> 今日状态</h4>
+                    <div class="chip-group" id="mood-types">
+                        <div class="chip" data-val="很差">很差</div>
+                        <div class="chip" data-val="一般">一般</div>
+                        <div class="chip" data-val="还不错">还不错</div>
+                        <div class="chip" data-val="很好">很好</div>
+                    </div>
+                    <textarea id="input-note" placeholder="今天发生了什么？ (选填)" class="full-input mt-2" rows="2"></textarea>
+                </div>
+                
+                <div style="height: 100px;"></div> <!-- 占位防遮挡 -->
+            </div>
         </div>
-        <div class="row">
-            <div class="row-left">昵称</div>
-            <div class="row-right has-arrow">u</div>
+
+        <!-- 趋势页 (Trend) -->
+        <div id="page-trend" class="page">
+            <h2 class="page-title">体重趋势</h2>
+            <div class="glass-card chart-container">
+                <div class="chart-filters">
+                    <button class="filter-btn active" data-days="7">7天</button>
+                    <button class="filter-btn" data-days="30">30天</button>
+                    <button class="filter-btn" data-days="90">90天</button>
+                    <button class="filter-btn" data-days="all">全部</button>
+                </div>
+                <canvas id="weightChart"></canvas>
+                <p id="chart-empty-msg" class="empty-msg hidden">记录几天后，这里会出现你的体重趋势。</p>
+            </div>
+            
+            <h3 class="section-title mt-4">历史记录</h3>
+            <div id="weight-history-list" class="history-list"></div>
+            <div style="height: 100px;"></div>
         </div>
-        <div class="row">
-            <div class="row-left">性别</div>
-            <div class="row-right">女</div>
+
+        <!-- 打卡/日历页 (Calendar) -->
+        <div id="page-calendar" class="page">
+            <h2 class="page-title">打卡日历</h2>
+            <div class="glass-card calendar-card">
+                <div class="calendar-header">
+                    <button id="cal-prev" class="btn-icon"><i data-lucide="chevron-left"></i></button>
+                    <h3 id="cal-month-year">2026年9月</h3>
+                    <button id="cal-next" class="btn-icon"><i data-lucide="chevron-right"></i></button>
+                </div>
+                <button id="cal-today" class="btn-text" style="width:100%; text-align:center; margin-bottom:10px;">回到今天</button>
+                
+                <div class="calendar-grid">
+                    <div class="cal-weekday">一</div><div class="cal-weekday">二</div><div class="cal-weekday">三</div>
+                    <div class="cal-weekday">四</div><div class="cal-weekday">五</div><div class="cal-weekday">六</div><div class="cal-weekday">日</div>
+                    <div id="cal-days" class="cal-days-container"></div>
+                </div>
+            </div>
+            
+            <div id="selected-day-details" class="glass-card day-details mt-4 hidden">
+                <h3 id="detail-date" class="mb-2"></h3>
+                <p id="detail-dayx" class="text-secondary mb-3"></p>
+                <div class="detail-grid">
+                    <div class="d-item"><span>体重</span><strong id="dt-weight">-</strong></div>
+                    <div class="d-item"><span>饮水</span><strong id="dt-water">-</strong></div>
+                    <div class="d-item"><span>运动</span><strong id="dt-exercise">-</strong></div>
+                    <div class="d-item"><span>饮食</span><strong id="dt-meal">-</strong></div>
+                    <div class="d-item"><span>睡眠</span><strong id="dt-sleep">-</strong></div>
+                    <div class="d-item"><span>状态</span><strong id="dt-mood">-</strong></div>
+                </div>
+                <p id="dt-note" class="mt-2 text-secondary" style="font-size:0.9em;"></p>
+            </div>
+            <div style="height: 100px;"></div>
         </div>
-        <div class="row">
-            <div class="row-left">地区</div>
-            <div class="row-right has-arrow">上海 浦东新区</div>
+
+        <!-- 挑战页 (Challenge) -->
+        <div id="page-challenge" class="page">
+            <h2 class="page-title">挑战与成就</h2>
+            <div id="challenge-container">
+                <!-- 动态渲染挑战卡片 -->
+            </div>
+            
+            <h3 class="section-title mt-4">里程碑</h3>
+            <div class="milestone-grid" id="milestone-container">
+                <!-- 动态渲染里程碑 -->
+            </div>
+            <div style="height: 100px;"></div>
         </div>
-        <div class="row">
-            <div class="row-left">个性签名</div>
-            <div class="row-right has-arrow">我的心可不冷</div>
+
+        <!-- 我的页 (Profile) -->
+        <div id="page-profile" class="page">
+            <h2 class="page-title">我的</h2>
+            
+            <div class="glass-card profile-weight-card">
+                <h3>体重目标</h3>
+                <div class="weight-stats">
+                    <div class="ws-item">
+                        <span>初始</span>
+                        <strong id="prof-init-weight">-</strong>
+                    </div>
+                    <div class="ws-item">
+                        <span>当前</span>
+                        <strong id="prof-curr-weight">-</strong>
+                    </div>
+                    <div class="ws-item">
+                        <span>目标</span>
+                        <strong id="prof-target-weight">-</strong>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <p id="prof-weight-diff" class="text-center mb-1 text-secondary">-</p>
+                    <div class="progress-bar"><div class="progress-fill" id="prof-weight-progress"></div></div>
+                    <p id="prof-weight-remain" class="text-center mt-1 text-secondary" style="font-size:0.85em;">-</p>
+                </div>
+            </div>
+            
+            <div class="glass-card stats-grid mt-4">
+                <div class="stat-box">
+                    <span class="stat-num" id="stat-total-days">0</span>
+                    <span class="stat-label">累计打卡</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-num" id="stat-max-streak">0</span>
+                    <span class="stat-label">最长连续</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-num" id="stat-month-days">0</span>
+                    <span class="stat-label">本月打卡</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-num" id="stat-weight-count">0</span>
+                    <span class="stat-label">记录体重</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-num" id="stat-exercise-count">0</span>
+                    <span class="stat-label">运动记录</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-num" id="stat-meal-count">0</span>
+                    <span class="stat-label">饮食记录</span>
+                </div>
+            </div>
+
+            <div class="glass-card mt-4 settings-card">
+                <button id="btn-export" class="list-btn"><i data-lucide="download"></i> 导出数据 (JSON)</button>
+                <div class="list-divider"></div>
+                <label for="input-import" class="list-btn" style="display:flex; cursor:pointer;">
+                    <i data-lucide="upload"></i> 导入数据
+                </label>
+                <input type="file" id="input-import" accept=".json" style="display:none;">
+                <div class="list-divider"></div>
+                <button id="btn-reset" class="list-btn text-danger"><i data-lucide="trash-2"></i> 恢复默认设置</button>
+            </div>
+            <div style="height: 100px;"></div>
         </div>
+
+        <!-- 底部导航 -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" data-target="page-home">
+                <i data-lucide="home"></i><span>首页</span>
+            </div>
+            <div class="nav-item" data-target="page-trend">
+                <i data-lucide="trending-up"></i><span>趋势</span>
+            </div>
+            <div class="nav-item" data-target="page-calendar">
+                <i data-lucide="calendar"></i><span>打卡</span>
+            </div>
+            <div class="nav-item" data-target="page-challenge">
+                <i data-lucide="award"></i><span>挑战</span>
+            </div>
+            <div class="nav-item" data-target="page-profile">
+                <i data-lucide="user"></i><span>我的</span>
+            </div>
+        </nav>
     </div>
 
-    <!-- 年龄信息卡片 -->
-    <div class="section-note">年龄来自支付宝实名信息，仅用作展示，关闭后将不会公开</div>
-    <div class="card">
-        <div class="row">
-            <div class="row-left">公开我的年龄</div>
-            <div class="row-right">
-                <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </div>
-        <div class="row clickable" id="ageRow">
-            <div class="row-left">年龄</div>
-            <div class="row-right">
-                <input type="number" id="ageInput" value="23" class="inline-input">
-            </div>
-        </div>
-    </div>
+    <!-- 提示框 -->
+    <div id="toast" class="toast hidden"></div>
 
-    <!-- 其他信息卡片 -->
-    <div class="section-note">以下信息填写后，将会公开展示</div>
-    <div class="card">
-        <div class="row">
-            <div class="row-left">职业</div>
-            <div class="row-right has-arrow">未填写</div>
-        </div>
-        <div class="row">
-            <div class="row-left">收入</div>
-            <div class="row-right has-arrow">未填写</div>
-        </div>
-        <div class="row">
-            <div class="row-left">兴趣爱好</div>
-            <div class="row-right has-arrow">未填写</div>
-        </div>
-    </div>
-
-    <!-- 动态管理卡片 -->
-    <div class="section-note">管理我在个人信息页展示的动态内容</div>
-    <div class="card">
-        <div class="row">
-            <div class="row-left">公开我的动态</div>
-            <div class="row-right">
-                <label class="switch">
-                    <input type="checkbox" checked>
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="row-left">朋友动态开关</div>
-            <div class="row-right">
-                <label class="switch">
-                    <input type="checkbox" checked>
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="row-left">生活号开关</div>
-            <div class="row-right">
-                <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // --- 更换头像逻辑 ---
-    const avatarRow = document.getElementById('avatarRow');
-    const avatarInput = document.getElementById('avatarInput');
-    const avatarImg = document.getElementById('avatarImg');
-
-    avatarRow.addEventListener('click', function() {
-        avatarInput.click();
-    });
-
-    avatarInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                avatarImg.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // --- 修改年龄逻辑 ---
-    const ageRow = document.getElementById('ageRow');
-    const ageInput = document.getElementById('ageInput');
-
-    ageRow.addEventListener('click', function(e) {
-        ageInput.focus();
-    });
-</script>
+    <script src="js/app.js"></script>
 </body>
 </html>
